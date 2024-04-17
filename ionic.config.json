@@ -1,0 +1,7 @@
+{
+  "name": "AppliMobileLocalux",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
