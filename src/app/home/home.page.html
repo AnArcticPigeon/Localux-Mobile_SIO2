@@ -10,25 +10,32 @@
   <ion-card>
     <ion-card-header>
       <ion-list>
-        <ion-card-title>Choix du trajet</ion-card-title>
+        <ion-card-title>Choix du trajet:</ion-card-title>
         <ion-item>
           <ion-select label="Ville de depart" label-placement="floating">
-            <ion-select-option value="apple">Apple</ion-select-option>
-            <ion-select-option value="banana">Banana</ion-select-option>
-            <ion-select-option value="orange">Orange</ion-select-option>
+            <ion-select-option *ngFor="let dest of lesDestinations"
+              value={{dest.id}}>{{dest.libelle}}</ion-select-option>
           </ion-select>
         </ion-item>
         <ion-item>
           <ion-select label="Ville d'arrivé" label-placement="floating">
-            <ion-select-option value="apple">Apple</ion-select-option>
-            <ion-select-option value="banana">Banana</ion-select-option>
-            <ion-select-option value="orange">Orange</ion-select-option>
+            <ion-select-option *ngFor="let dest of lesDestinations"
+              value={{dest.id}}>{{dest.libelle}}</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-list>
     </ion-card-header>
   </ion-card>
-
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Choix du véhicule:</ion-card-title>
+      <ion-item>
+        <ion-select label="Voitures" label-placement="floating">
+          <ion-select-option *ngFor="let voit of lesVoitures" value={{voit.id}}>{{voit.leModele.libelle}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-card-header>
+  </ion-card>
 </ion-content>
 <ion-footer>
   <ion-button expand="block">
