@@ -31,14 +31,34 @@
       <ion-card-title>Choix du véhicule:</ion-card-title>
       <ion-item>
         <ion-select label="Voitures" label-placement="floating">
-          <ion-select-option *ngFor="let voit of lesVoitures" value={{voit.id}}>{{voit.leModele.libelle}}</ion-select-option>
+          <ion-select-option *ngFor="let voit of lesVoitures"
+            value={{voit.id}}>{{voit.leModele.libelle}}</ion-select-option>
         </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-select label="Chauffeur" label-placement="floating">
+          <ion-select-option *ngFor="let chauf of lesChauffeurs" value={{chauf.id}}><ion-avatar><img
+                alt="Silouette de la tête d'une personne"
+                src="https://ionicframework.com/docs/img/demos/avatar.svg" /></ion-avatar>{{chauf.nom}}
+            {{chauf.prenom}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-card-header>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Choix de la date du trajet</ion-card-title>
+      <ion-item>
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime min="2024-04-01T00:00:00" max="2026-12-31T23:59:59" id="datetime"></ion-datetime>
+          </ng-template>
+        </ion-modal>
       </ion-item>
     </ion-card-header>
   </ion-card>
 </ion-content>
 <ion-footer>
-  <ion-button expand="block">
-    Se connecter
-  </ion-button>
+  <ion-button expand="block">Se connecter</ion-button>
 </ion-footer>
