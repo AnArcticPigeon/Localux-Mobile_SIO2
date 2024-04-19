@@ -21,7 +21,7 @@ export class HomePage {
   selectedVilleDepartId:any
   selectedVilleArriveId:any
 
-  constructor(private router: Router, private http: HttpClient, private activatedRoute: ActivatedRoute, public ToastController: ToastController) {
+  constructor(private router: Router, private http: HttpClient, public ToastController: ToastController) {
     if (this.router.getCurrentNavigation()?.extras.state) {
       let navigation: any = this.router.getCurrentNavigation()?.extras.state;
       this.idUtilisateur = navigation.idUtilisateur;
