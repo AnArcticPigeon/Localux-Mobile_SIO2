@@ -25,7 +25,6 @@ export class HomePage {
     if (this.router.getCurrentNavigation()?.extras.state) {
       let navigation: any = this.router.getCurrentNavigation()?.extras.state;
       this.idUtilisateur = navigation.idUtilisateur;
-      console.log(this.idUtilisateur)
     }
     let env = this
     this.http.get("http://192.168.54.10/Localux/api/destinations").subscribe((data: any) => {
@@ -51,22 +50,46 @@ export class HomePage {
     const minutes = currentDate.getMinutes().toString().padStart(2, '0');
   
     // Construct the formatted date string
-    const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:00.000Z`;
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:00`;
   
     return formattedDate;
   }
 
+  convertDateTimeFormat(dateTimeString:any) {
+    // Split the date and time parts
+    const parts = dateTimeString.split('T');
+    
+    // Date part will be at index 0, time part at index 1
+    const datePart = parts[0];
+    const timePart = parts[1];
+
+    // Split the time part to get hours, minutes, and seconds
+    const timeParts = timePart.split(':');
+    
+    // Concatenate date part with time part using a space
+    const formattedDateTime = `${datePart} ${timeParts[0]}:${timeParts[1]}:${timeParts[2]}`;
+    
+    return formattedDateTime;
+}
+
   addReservation() {
     let data = {
-      "destinationDepart": "/Localux/api/destinations/" + this.selectedVilleDepartId,
-      "destinationArriver" : "/Localux/api/destinations/" + this.selectedVilleArriveId,
-      "lechauffeur" : "/Localux/api/chauffeurs/" + this.selectedChauffeurId,
+      "destinationDepart": this.selectedVilleDepartId,
+      "destinationArriver" : this.selectedVilleArriveId,
+      "lechauffeur" : this.selectedChauffeurId,
       "datereservation" : this.getCurrentDate(),
-      "dateDebutReservation" : this.selectedDate + ".000Z",
-      "laVoiture" : "/Localux/api/voitures/" + this.selectedVoitureId,
-      "leClient" : "/Localux/api/utilisateurs/" + this.idUtilisateur
+      "dateDebutReservation" : this.convertDateTimeFormat(this.selectedDate),
+      "laVoiture" : this.selectedVoitureId,
+      "leClient" : this.idUtilisateur
     }
-    console.log(data)
-    return this.http.post('http://192.168.54.10/Localux/api/reservation_chauffeurs', data);
+    return this.http.get('http://192.168.54.10/Localux/reservation/add/'+this.selectedVilleDepartId+'/'+this.selectedVilleArriveId+'/'+this.selectedChauffeurId+'/'+this.getCurrentDate()+'/'+this.convertDateTimeFormat(this.selectedDate)+'/'+this.selectedVoitureId+'/'+this.idUtilisateur).subscribe((data:any) => {
+      this.ToastController.create({
+        message: data.errcode?"Reservation enregistrée avec succès":"Une erreur s'est produite",
+        position: "top",
+        color: data.errcode?"success":"danger",
+        duration: 3000,
+      }).then((toast) => toast.present())
+      console.log(data)
+    });
   }
 }
